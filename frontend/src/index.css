@@ -422,3 +422,209 @@ body {
 .mt-4 {
   margin-top: 1rem;
 }
+
+/* Live Queue Widget Styles */
+.live-queue-widget {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  border: 1px solid var(--border-color);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.lqw-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.lqw-icon-bg {
+  background-color: #f1f5f9;
+  padding: 0.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lqw-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #0284c7;
+}
+
+.lqw-header-text h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.lqw-header-text p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.lqw-card {
+  background-color: #f8fafc;
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.lqw-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.consulting-content {
+  gap: 1rem;
+}
+
+.lqw-avatar-bg {
+  background-color: #e0f2fe;
+  padding: 0.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lqw-avatar-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #0284c7;
+}
+
+.lqw-info {
+  flex: 1;
+}
+
+.lqw-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.lqw-patient-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.lqw-action-btn {
+  background-color: #dcfce7;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.lqw-action-btn:hover {
+  background-color: #bbf7d0;
+}
+
+.lqw-arrow-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #16a34a;
+}
+
+.ahead-content {
+  align-items: center;
+}
+
+.lqw-ahead-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.lqw-ahead-count {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1;
+  margin-top: 0.25rem;
+}
+
+.lqw-bubbles-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.queue-bubble {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1px solid white;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.queue-bubble.overflow {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.lqw-progress-container {
+  margin-top: 1.5rem;
+}
+
+.lqw-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.lqw-percentage {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0284c7;
+}
+
+.lqw-progress-bar-bg {
+  width: 100%;
+  height: 10px;
+  background-color: #f1f5f9;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.lqw-progress-fill {
+  height: 100%;
+  background-color: #0284c7;
+  border-radius: 9999px;
+  transition: width 1s linear;
+}
+
+.lqw-progress-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}

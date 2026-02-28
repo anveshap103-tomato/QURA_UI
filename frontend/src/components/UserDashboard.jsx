@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import LiveQueueWidget from './LiveQueueWidget'
 
 export default function UserDashboard({ user }) {
     const [queue, setQueue] = useState([])
@@ -85,33 +86,8 @@ export default function UserDashboard({ user }) {
                     )}
                 </section>
 
-                <section className="queue-list-card card">
-                    <h2>Live Clinic Queue</h2>
-                    <div className="queue-list">
-                        {queue.length === 0 ? (
-                            <p className="empty-state">No one is in the queue right now.</p>
-                        ) : (
-                            queue.map((patient) => (
-                                <div
-                                    key={patient.id}
-                                    className={`queue-item readonly ${patient.priority.toLowerCase()} ${patient.name === user.name ? 'my-ticket' : ''}`}
-                                >
-                                    <div className="queue-info">
-                                        <div className="queue-header">
-                                            <h3>{patient.name === user.name ? '🌟 You' : patient.name}</h3>
-                                            <span className={`badge ${patient.priority.toLowerCase()}`}>
-                                                {patient.priority}
-                                            </span>
-                                        </div>
-                                        <div className="queue-meta">
-                                            <p>Position: <strong>#{patient.position + 1}</strong></p>
-                                            <p>Wait Time: <strong>{patient.estimated_wait_time} mins</strong></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
+                <section className="live-widget-section">
+                    <LiveQueueWidget queue={queue} user={user} />
                 </section>
             </div>
         </div>
