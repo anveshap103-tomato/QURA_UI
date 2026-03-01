@@ -14,7 +14,6 @@ export default function UserDashboard({ user }) {
                 const data = await res.json()
                 setQueue(data)
 
-                // Auto-detect if current user is already in the queue based on name
                 const mypos = data.find(p => p.name.toLowerCase() === user.name.toLowerCase())
                 if (mypos) setIsBooked(true)
                 else setIsBooked(false)
@@ -56,30 +55,37 @@ export default function UserDashboard({ user }) {
         }
     }
 
-    // Find users booking info
     const myQueueInfo = queue.find(p => p.name.toLowerCase() === user.name.toLowerCase())
 
     return (
         <div className="dashboard user-dashboard">
+            <div className="page-header">
+                <h2 className="page-title">Patient Dashboard</h2>
+                <p className="page-subtitle">Book your appointment and track your queue position in real-time</p>
+            </div>
+
             {error && <div className="error-banner">{error}</div>}
 
-            <div className="main-content">
+            <div className="main-content" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'start' }}>
                 <section className="user-action-card card">
-                    <h2>Book an Appointment</h2>
+                    <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: 'var(--primary-dark)' }}>📋 Book an Appointment</h2>
                     {!isBooked ? (
                         <form onSubmit={handleBookAppointment}>
-                            <p className="booking-info">You will be added to the queue as: <strong>{user.name}</strong></p>
+                            <p className="booking-info" style={{ marginBottom: '1.5rem', fontSize: '1rem' }}>
+                                You will be added to the queue as: <strong style={{ color: 'var(--primary-dark)' }}>{user.name}</strong>
+                            </p>
                             <button type="submit" disabled={loading} className="btn-primary btn-large">
-                                {loading ? 'Booking...' : 'Book Now'}
+                                {loading ? '⏳ Booking...' : '✓ Book Now'}
                             </button>
                         </form>
                     ) : (
                         <div className="booked-success">
-                            <h3>Appointment Confirmed!</h3>
+                            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
+                            <h3 style={{ color: 'var(--success-color)', marginBottom: '1.5rem', fontSize: '1.25rem' }}>Appointment Confirmed!</h3>
                             {myQueueInfo && (
                                 <div className="ticket">
-                                    <p>Your Position: <span className="highlight">#{myQueueInfo.position + 1}</span></p>
-                                    <p>Estimated Wait: <span className="highlight">{myQueueInfo.estimated_wait_time} mins</span></p>
+                                    <p style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>Your Position: <span className="highlight">#{myQueueInfo.position + 1}</span></p>
+                                    <p style={{ fontSize: '1rem' }}>Estimated Wait: <span className="highlight">{myQueueInfo.estimated_wait_time} mins</span></p>
                                 </div>
                             )}
                         </div>
