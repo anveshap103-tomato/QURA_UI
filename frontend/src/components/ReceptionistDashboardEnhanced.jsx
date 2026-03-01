@@ -28,7 +28,7 @@ export default function ReceptionistDashboardEnhanced() {
 
     const fetchStats = async () => {
         try {
-            const res = await fetch('http://localhost:8000/queue/stats')
+            const res = await fetch('https://qura-ui-2.onrender.com')
             if (res.ok) {
                 const data = await res.json()
                 setStats(data)
