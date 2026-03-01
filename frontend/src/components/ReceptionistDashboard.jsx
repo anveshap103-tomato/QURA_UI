@@ -13,12 +13,13 @@ export default function ReceptionistDashboard() {
             const res = await fetch(`${API_URL}/queue`)
             if (res.ok) {
                 const data = await res.json()
-                setQueue(data)
+                setQueue(Array.isArray(data) ? data : [])
                 setError(null)
             } else {
                 throw new Error('Failed to fetch queue')
             }
         } catch (err) {
+            setQueue([])
             setError('Cannot connect to server. Ensure backend is running.')
         }
     }

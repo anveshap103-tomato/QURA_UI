@@ -13,7 +13,7 @@ export default function UserDashboard({ user }) {
             const res = await fetch(`${API_URL}/queue`)
             if (res.ok) {
                 const data = await res.json()
-                setQueue(data)
+                setQueue(Array.isArray(data) ? data : [])
 
                 const mypos = data.find(p => p.name.toLowerCase() === user.name.toLowerCase())
                 if (mypos) setIsBooked(true)
@@ -24,6 +24,7 @@ export default function UserDashboard({ user }) {
                 throw new Error('Failed to fetch queue')
             }
         } catch (err) {
+            setQueue([])
             setError('Cannot connect to server. Ensure backend is running.')
         }
     }
