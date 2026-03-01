@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './components/LoginPage'
-import ReceptionistDashboard from './components/ReceptionistDashboard'
-import UserDashboard from './components/UserDashboard'
+import ReceptionistDashboardEnhanced from './components/ReceptionistDashboardEnhanced'
+import UserDashboardEnhanced from './components/UserDashboardEnhanced'
 import './index.css'
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
                                 <div className="logo-icon">Q</div>
                                 <div className="brand-text">
                                     <h1>QURA</h1>
-                                    <p>Smart Clinic Queue System</p>
+                                    <p>AI-Powered Queue Management</p>
                                 </div>
                             </div>
                             <div className="navbar-actions">
@@ -47,11 +47,11 @@ function App() {
                         />
                         <Route
                             path="/receptionist"
-                            element={user?.role === 'receptionist' ? <ReceptionistDashboard /> : <Navigate to="/" />}
+                            element={user?.role === 'receptionist' ? <ReceptionistDashboardEnhanced /> : <Navigate to="/" />}
                         />
                         <Route
                             path="/user"
-                            element={user?.role === 'user' ? <UserDashboard user={user} /> : <Navigate to="/" />}
+                            element={user?.role === 'user' ? <UserDashboardEnhanced user={user} /> : <Navigate to="/" />}
                         />
                     </Routes>
                 </div>
