@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './components/LoginPage'
-import ReceptionistDashboard from './components/ReceptionistDashboard'
-import UserDashboard from './components/UserDashboard'
+import ReceptionistDashboardEnhanced from './components/ReceptionistDashboardEnhanced'
+import UserDashboardEnhanced from './components/UserDashboardEnhanced'
 import './index.css'
 
 function App() {
@@ -10,32 +10,51 @@ function App() {
 
     return (
         <BrowserRouter>
-            <div className="container">
-                <header className="header">
-                    <h1>QURA</h1>
-                    <p>Smart Clinic Queue System</p>
-                    {user && (
-                        <div className="user-profile">
-                            <span>Logged in as <b>{user.name}</b> ({user.role})</span>
-                            <button className="btn-logout" onClick={() => setUser(null)}>Logout</button>
+            <div className="app-wrapper">
+                {user && (
+                    <nav className="navbar">
+                        <div className="navbar-container">
+                            <div className="navbar-brand">
+                                <div className="logo-icon">Q</div>
+                                <div className="brand-text">
+                                    <h1>QURA</h1>
+                                    <p>AI-Powered Queue Management</p>
+                                </div>
+                            </div>
+                            <div className="navbar-actions">
+                                <div className="user-info">
+                                    <div className="user-avatar">
+                                        {user.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div className="user-details">
+                                        <span className="user-name">{user.name}</span>
+                                        <span className="user-role">{user.role}</span>
+                                    </div>
+                                </div>
+                                <button className="btn-logout" onClick={() => setUser(null)}>
+                                    Logout
+                                </button>
+                            </div>
                         </div>
-                    )}
-                </header>
+                    </nav>
+                )}
 
-                <Routes>
-                    <Route
-                        path="/"
-                        element={user ? <Navigate to={`/${user.role}`} /> : <LoginPage onLogin={setUser} />}
-                    />
-                    <Route
-                        path="/receptionist"
-                        element={user?.role === 'receptionist' ? <ReceptionistDashboard /> : <Navigate to="/" />}
-                    />
-                    <Route
-                        path="/user"
-                        element={user?.role === 'user' ? <UserDashboard user={user} /> : <Navigate to="/" />}
-                    />
-                </Routes>
+                <div className="container">
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={user ? <Navigate to={`/${user.role}`} /> : <LoginPage onLogin={setUser} />}
+                        />
+                        <Route
+                            path="/receptionist"
+                            element={user?.role === 'receptionist' ? <ReceptionistDashboardEnhanced /> : <Navigate to="/" />}
+                        />
+                        <Route
+                            path="/user"
+                            element={user?.role === 'user' ? <UserDashboardEnhanced user={user} /> : <Navigate to="/" />}
+                        />
+                    </Routes>
+                </div>
             </div>
         </BrowserRouter>
     )

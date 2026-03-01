@@ -71,11 +71,16 @@ export default function ReceptionistDashboard() {
 
     return (
         <div className="dashboard receptionist-dashboard">
+            <div className="page-header">
+                <h2 className="page-title">Receptionist Dashboard</h2>
+                <p className="page-subtitle">Manage walk-in patients and monitor the live queue</p>
+            </div>
+
             {error && <div className="error-banner">{error}</div>}
 
-            <div className="main-content">
-                <section className="add-patient-card card">
-                    <h2>Receptionist: Add Walk-in Patient</h2>
+            <div className="main-content" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem', alignItems: 'start' }}>
+                <section className="add-patient-card card" style={{ position: 'sticky', top: '2rem' }}>
+                    <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: 'var(--primary-dark)' }}>➕ Add Walk-in Patient</h2>
                     <form onSubmit={handleAddPatient}>
                         <div className="form-group">
                             <label>Patient Name</label>
@@ -88,23 +93,26 @@ export default function ReceptionistDashboard() {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Priority</label>
+                            <label>Priority Level</label>
                             <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-                                <option value="Normal">Normal</option>
-                                <option value="Emergency">Emergency</option>
+                                <option value="Normal">✅ Normal</option>
+                                <option value="Emergency">🚨 Emergency</option>
                             </select>
                         </div>
                         <button type="submit" disabled={loading} className="btn-primary">
-                            {loading ? 'Adding...' : 'Add to Queue'}
+                            {loading ? '⏳ Adding...' : '✓ Add to Queue'}
                         </button>
                     </form>
                 </section>
 
                 <section className="queue-list-card card">
-                    <h2>Live Queue Info</h2>
+                    <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: 'var(--primary-dark)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ width: '10px', height: '10px', background: 'var(--success-color)', borderRadius: '50%', animation: 'pulse 2s infinite' }}></span>
+                        Live Queue ({queue.length})
+                    </h2>
                     <div className="queue-list">
                         {queue.length === 0 ? (
-                            <p className="empty-state">No patients in the queue.</p>
+                            <p className="empty-state" style={{ padding: '3rem', textAlign: 'center' }}>📋 No patients in the queue.</p>
                         ) : (
                             queue.map((patient) => (
                                 <div key={patient.id} className={`queue-item ${patient.priority.toLowerCase()}`}>
@@ -112,7 +120,7 @@ export default function ReceptionistDashboard() {
                                         <div className="queue-header">
                                             <h3>{patient.name}</h3>
                                             <span className={`badge ${patient.priority.toLowerCase()}`}>
-                                                {patient.priority}
+                                                {patient.priority === 'Emergency' ? '🚨' : '✅'} {patient.priority}
                                             </span>
                                         </div>
                                         <div className="queue-meta">
@@ -121,7 +129,7 @@ export default function ReceptionistDashboard() {
                                         </div>
                                     </div>
                                     <button onClick={() => handleComplete(patient.id)} className="btn-complete">
-                                        Complete
+                                        ✓ Complete
                                     </button>
                                 </div>
                             ))
