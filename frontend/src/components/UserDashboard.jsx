@@ -9,7 +9,7 @@ export default function UserDashboard({ user }) {
 
     const fetchQueue = async () => {
         try {
-            const res = await fetch('http://localhost:8000/queue')
+            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/queue`)
             if (res.ok) {
                 const data = await res.json()
                 setQueue(data)
@@ -37,7 +37,7 @@ export default function UserDashboard({ user }) {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await fetch('http://localhost:8000/add_patient', {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/add_patient`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: user.name, priority: 'Normal' })

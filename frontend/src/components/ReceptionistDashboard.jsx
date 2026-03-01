@@ -9,7 +9,7 @@ export default function ReceptionistDashboard() {
 
     const fetchQueue = async () => {
         try {
-            const res = await fetch('http://localhost:8000/queue')
+            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/queue`)
             if (res.ok) {
                 const data = await res.json()
                 setQueue(data)
@@ -33,7 +33,7 @@ export default function ReceptionistDashboard() {
         if (!name.trim()) return
         setLoading(true)
         try {
-            const res = await fetch('http://localhost:8000/add_patient', {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/add_patient`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: name.trim(), priority })
@@ -54,7 +54,7 @@ export default function ReceptionistDashboard() {
 
     const handleComplete = async (patientId) => {
         try {
-            const res = await fetch('http://localhost:8000/complete_patient', {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/complete_patient`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ patient_id: patientId })
