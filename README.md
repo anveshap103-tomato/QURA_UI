@@ -386,3 +386,7 @@ Used for:
                                ▼
                     Real-Time Response & Notifications
 ```
+
+Deployed Link - https://frontend-ir6r.onrender.com/receptionist
+
+Drive Link - https://drive.google.com/drive/u/0/folders/1SQ3Sf-ixJLAmJ5DoUyEZ9Uz-F_xLnlSA
