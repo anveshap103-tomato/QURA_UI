@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { API_URL } from '../config'
 
 export default function ReceptionistDashboardEnhanced() {
     const [queue, setQueue] = useState([])
@@ -15,10 +16,10 @@ export default function ReceptionistDashboardEnhanced() {
 
     const fetchQueue = async () => {
         try {
-            const res = await fetch('https://qura-ui-2.onrender.com')
+            const res = await fetch(`${API_URL}/queue`)
             if (res.ok) {
                 const data = await res.json()
-                setQueue(data)
+                setQueue(Array.isArray(data) ? data : [])
                 setError(null)
             }
         } catch (err) {
@@ -28,7 +29,7 @@ export default function ReceptionistDashboardEnhanced() {
 
     const fetchStats = async () => {
         try {
-            const res = await fetch('https://qura-ui-2.onrender.com')
+            const res = await fetch(`${API_URL}/queue/stats`)
             if (res.ok) {
                 const data = await res.json()
                 setStats(data)
@@ -53,7 +54,7 @@ export default function ReceptionistDashboardEnhanced() {
         if (!formData.name.trim()) return
         setLoading(true)
         try {
-            const res = await fetch('http://localhost:8000/add_patient', {
+            const res = await fetch(`${API_URL}/add_patient`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -82,11 +83,11 @@ export default function ReceptionistDashboardEnhanced() {
         try {
             // Simulate actual duration (in real app, this would be tracked)
             const actualDuration = Math.floor(estimatedDuration * (0.8 + Math.random() * 0.4))
-            
-            const res = await fetch('http://localhost:8000/complete_patient', {
+
+            const res = await fetch(`${API_URL}/complete_patient`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     patient_id: patientId,
                     actual_duration: actualDuration
                 })
@@ -123,19 +124,19 @@ export default function ReceptionistDashboardEnhanced() {
                             🚨 {stats.emergency_count} Emergency
                         </div>
                     </div>
-                    
+
                     <div className="stat-card" style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', color: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: 'var(--shadow-md)' }}>
                         <div style={{ fontSize: '0.75rem', opacity: 0.9, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Avg Wait Time</div>
                         <div style={{ fontSize: '2.5rem', fontWeight: '700', marginTop: '0.5rem' }}>{stats.average_wait_time}</div>
                         <div style={{ fontSize: '0.75rem', marginTop: '0.25rem', opacity: 0.8 }}>minutes</div>
                     </div>
-                    
+
                     <div className="stat-card" style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: 'var(--shadow-md)' }}>
                         <div style={{ fontSize: '0.75rem', opacity: 0.9, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Next Available</div>
                         <div style={{ fontSize: '1.75rem', fontWeight: '700', marginTop: '0.5rem' }}>{stats.next_available_slot}</div>
                         <div style={{ fontSize: '0.75rem', marginTop: '0.25rem', opacity: 0.8 }}>slot time</div>
                     </div>
-                    
+
                     <div className="stat-card" style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', color: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: 'var(--shadow-md)' }}>
                         <div style={{ fontSize: '0.75rem', opacity: 0.9, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Doctor Utilization</div>
                         <div style={{ fontSize: '2.5rem', fontWeight: '700', marginTop: '0.5rem' }}>{stats.doctor_utilization}%</div>
@@ -174,7 +175,7 @@ export default function ReceptionistDashboardEnhanced() {
                                 🤖 AI will predict consultation duration
                             </small>
                         </div>
-                        
+
                         <div className="form-group">
                             <label>Priority Level</label>
                             <select value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value })}>
@@ -193,16 +194,16 @@ export default function ReceptionistDashboardEnhanced() {
                                 <span>Walk-in Patient</span>
                             </label>
                         </div>
-                        
+
                         <button type="submit" disabled={loading} className="btn-primary">
                             {loading ? '⏳ Adding...' : '✓ Add to Queue'}
                         </button>
                     </form>
 
                     {/* AI Suggestions Box */}
-                    <div style={{ 
-                        marginTop: '1.5rem', 
-                        padding: '1rem', 
+                    <div style={{
+                        marginTop: '1.5rem',
+                        padding: '1rem',
                         background: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
                         borderRadius: '12px',
                         fontSize: '0.875rem'
@@ -211,11 +212,11 @@ export default function ReceptionistDashboardEnhanced() {
                             🤖 AI Suggestion
                         </div>
                         <div style={{ opacity: 0.9 }}>
-                            {stats && stats.doctor_utilization > 80 
+                            {stats && stats.doctor_utilization > 80
                                 ? "⚠️ High workload detected. Consider scheduling non-urgent cases for later."
                                 : stats && stats.total_patients === 0
-                                ? "✅ Queue is empty. Good time for walk-ins!"
-                                : "📊 Queue is balanced. Continue normal operations."}
+                                    ? "✅ Queue is empty. Good time for walk-ins!"
+                                    : "📊 Queue is balanced. Continue normal operations."}
                         </div>
                     </div>
                 </section>
@@ -225,7 +226,7 @@ export default function ReceptionistDashboardEnhanced() {
                         <span style={{ width: '10px', height: '10px', background: 'var(--success-color)', borderRadius: '50%', animation: 'pulse 2s infinite' }}></span>
                         Live Queue ({queue.length})
                     </h2>
-                    
+
                     <div className="queue-list">
                         {queue.length === 0 ? (
                             <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
@@ -242,9 +243,9 @@ export default function ReceptionistDashboardEnhanced() {
                                                 {patient.priority === 'Emergency' ? '🚨' : '✅'} {patient.priority}
                                             </span>
                                             {patient.is_walkin && (
-                                                <span style={{ 
-                                                    padding: '0.25rem 0.75rem', 
-                                                    background: '#fef3c7', 
+                                                <span style={{
+                                                    padding: '0.25rem 0.75rem',
+                                                    background: '#fef3c7',
                                                     color: '#92400e',
                                                     borderRadius: '12px',
                                                     fontSize: '0.75rem',
@@ -254,13 +255,13 @@ export default function ReceptionistDashboardEnhanced() {
                                                 </span>
                                             )}
                                         </div>
-                                        
+
                                         {patient.symptoms && (
                                             <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
                                                 💬 {patient.symptoms}
                                             </p>
                                         )}
-                                        
+
                                         <div className="queue-meta" style={{ marginTop: '0.75rem' }}>
                                             <p>Position: <strong>#{patient.position + 1}</strong></p>
                                             <p>Wait: <strong>{patient.estimated_wait_time} min</strong></p>
@@ -269,7 +270,7 @@ export default function ReceptionistDashboardEnhanced() {
 
                                         {/* AI Notification */}
                                         {patient.delay_notification && (
-                                            <div style={{ 
+                                            <div style={{
                                                 marginTop: '0.75rem',
                                                 padding: '0.5rem',
                                                 background: '#eff6ff',
@@ -281,9 +282,9 @@ export default function ReceptionistDashboardEnhanced() {
                                             </div>
                                         )}
                                     </div>
-                                    
-                                    <button 
-                                        onClick={() => handleComplete(patient.id, patient.estimated_duration)} 
+
+                                    <button
+                                        onClick={() => handleComplete(patient.id, patient.estimated_duration)}
                                         className="btn-complete"
                                         disabled={completingId === patient.id}
                                         style={{ minWidth: '100px' }}

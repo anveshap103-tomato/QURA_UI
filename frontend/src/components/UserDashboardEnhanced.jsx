@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import LiveQueueWidget from './LiveQueueWidget'
+import { API_URL } from '../config'
 
 export default function UserDashboard({ user }) {
     const [queue, setQueue] = useState([])
@@ -15,12 +16,13 @@ export default function UserDashboard({ user }) {
 
     const fetchQueue = async () => {
         try {
-            const res = await fetch('https://qura-ui-2.onrender.com')
+            const res = await fetch(`${API_URL}/queue`)
             if (res.ok) {
                 const data = await res.json()
-                setQueue(data)
+                const queueData = Array.isArray(data) ? data : []
+                setQueue(queueData)
 
-                const mypos = data.find(p => p.name.toLowerCase() === user.name.toLowerCase())
+                const mypos = queueData.find(p => p.name.toLowerCase() === user.name.toLowerCase())
                 if (mypos) setIsBooked(true)
                 else setIsBooked(false)
 
@@ -33,7 +35,7 @@ export default function UserDashboard({ user }) {
 
     const fetchStats = async () => {
         try {
-            const res = await fetch('https://qura-ui-2.onrender.com')
+            const res = await fetch(`${API_URL}/queue/stats`)
             if (res.ok) {
                 const data = await res.json()
                 setStats(data)
@@ -57,7 +59,7 @@ export default function UserDashboard({ user }) {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await fetch('http://localhost:8000/add_patient', {
+            const res = await fetch(`${API_URL}/add_patient`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -129,7 +131,7 @@ export default function UserDashboard({ user }) {
                                     style={{ background: '#f5f8fa', cursor: 'not-allowed' }}
                                 />
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Symptoms / Reason for Visit</label>
                                 <textarea
@@ -156,8 +158,8 @@ export default function UserDashboard({ user }) {
 
                             <div className="form-group">
                                 <label>Priority</label>
-                                <select 
-                                    value={formData.priority} 
+                                <select
+                                    value={formData.priority}
                                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
                                 >
                                     <option value="Normal">✅ Normal</option>
@@ -186,12 +188,12 @@ export default function UserDashboard({ user }) {
                                             Consultation Time: <span className="highlight">{myQueueInfo.estimated_duration} mins</span>
                                         </p>
                                     </div>
-                                    
+
                                     {/* Real-time Notification */}
                                     {myQueueInfo.delay_notification && (
-                                        <div style={{ 
-                                            marginTop: '1rem', 
-                                            padding: '1rem', 
+                                        <div style={{
+                                            marginTop: '1rem',
+                                            padding: '1rem',
                                             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                                             color: 'white',
                                             borderRadius: '12px',
